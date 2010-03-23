@@ -1,0 +1,15 @@
+<?php
+// $Id$
+/**
+ * @file
+ * Example of an implementation of ctools_block's block plugins.
+ */
+
+/**
+ * Implementation of hook_ctools_plugin_directory().
+ */
+function ctools_block_example_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools_block' && $plugin == 'block') {
+    return 'plugins/' . $plugin;
+  }
+}

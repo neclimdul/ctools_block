@@ -1,0 +1,61 @@
+<?php
+// $Id$
+/**
+ * @file
+ * Provide an abstraction of hook_block using ctools plugins.
+ */
+
+/**
+ * Implementation of hook_block().
+ */
+function ctools_block_block($op = 'list', $delta = 0, $edit = array()) {
+  ctools_include('plugins');
+  switch ($op) {
+    case 'list':
+      $plugins = ctools_get_plugins('ctools_block', 'block');
+      foreach ($plugins as $id => $plugin) {
+        // Allow plugins to set options like 'cache', 'weight', 'status', 'region', 'visibility', and 'pages'
+        $blocks[$id] = $plugin['options'];
+        $blocks[$id]['info'] = t($plugin['info']);
+      }
+      return $blocks;
+
+    case 'view':
+      $plugin = ctools_get_plugin('ctools_block', 'block', $delta);
+      $content_function = ctools_plugin_get_function($plugin, 'content');
+      // @todo sort out how to handle subject. Should it just be a string. Can
+      // we support a function overide somehow?
+      $block['subject'] = '';
+      if ($content_function) {
+        $block['content'] = $content_function();
+      }
+      return $block;
+
+    case 'configure':
+      $configure_function = ctools_plugin_load_function('ctools_block', 'block', $delta, 'configure');
+      if ($configure_function) {
+        return $configure_function();
+      }
+      return;
+
+    case 'save':
+      $save_function = ctools_plugin_load_function('ctools_block', 'block', $delta, 'save');
+      if ($save_function) {
+        return $save_function($edit);
+      }
+      return;
+  }
+}
+
+/**
+ * Implementation of hook_ctools_plugin_block().
+ */
+function ctools_block_ctools_plugin_block() {
+  return array(
+    'cache' => FALSE,
+    'defaults' => array(
+      'info' => '',
+      'options' => array(),
+    ),
+  );
+}
