@@ -22,10 +22,12 @@ function ctools_block_block($op = 'list', $delta = 0, $edit = array()) {
 
     case 'view':
       $plugin = ctools_get_plugin('ctools_block', 'block', $delta);
+      $subject_function = ctools_plugin_get_function($plugin, 'subject');
       $content_function = ctools_plugin_get_function($plugin, 'content');
-      // @todo sort out how to handle subject. Should it just be a string. Can
-      // we support a function overide somehow?
-      $block['subject'] = '';
+
+      if ($subject_function) {
+        $block['subject'] = $subject_function();
+      }
       if ($content_function) {
         $block['content'] = $content_function();
       }
