@@ -22,8 +22,8 @@ function ctools_block_block($op = 'list', $delta = 0, $edit = array()) {
 
     case 'view':
       $plugin = ctools_get_plugin('ctools_block', 'block', $delta);
-      $subject_function = ctools_plugin_get_function($plugin, 'subject');
-      $content_function = ctools_plugin_get_function($plugin, 'content');
+      $subject_function = ctools_plugin_load_function('ctools_block', 'block', $delta, 'subject');
+      $content_function = ctools_plugin_load_function('ctools_block', 'block', $delta, 'content');
 
       if ($subject_function) {
         $block['subject'] = $subject_function();
