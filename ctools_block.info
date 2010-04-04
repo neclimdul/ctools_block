@@ -3,3 +3,4 @@ name = Chaos Blocks
 description = Provide an easier way to manage blocks using the Chaos Tools Suite.
 core = 6.x
 package = Chaos tool suite
+dependencies[] = ctools
