@@ -3,3 +3,4 @@ name = Chaos Blocks Example
 description = Example how to use chaos tools block.
 core = 6.x
 package = Chaos tool suite
+dependencies[] = ctools_block
