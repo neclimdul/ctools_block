@@ -21,12 +21,19 @@ function ctools_block_block($op = 'list', $delta = 0, $edit = array()) {
       return $blocks;
 
     case 'view':
-      $subject_function = ctools_plugin_load_function('ctools_block', 'block', $delta, 'subject');
-      $content_function = ctools_plugin_load_function('ctools_block', 'block', $delta, 'content');
+      $plugin = ctools_get_plugins('ctools_block', 'block', $delta);
 
-      if ($subject_function) {
-        $block['subject'] = $subject_function();
+      if (empty($plugin['subject string'])) {
+        $subject_function = ctools_plugin_get_function($plugin, 'subject');
+        if ($subject_function) {
+          $block['subject'] = $subject_function();
+        }
       }
+      else {
+        $block['subject'] = t($plugin['subject string']);
+      }
+
+      $content_function = ctools_plugin_load_function('ctools_block', 'block', $delta, 'content');
       if ($content_function) {
         $block['content'] = $content_function();
       }
@@ -57,6 +64,9 @@ function ctools_block_ctools_plugin_block() {
     'defaults' => array(
       // Subject building function.
       'subject' => NULL,
+      // Subject string is a static string that will be translated and used for
+      // a subject. This replaces the dynamic subject callback.
+      'subject string' => '',
       // Content building function.
       'content' => NULL,
       // Callback function used for building of the block configuration form.
