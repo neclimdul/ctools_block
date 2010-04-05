@@ -55,7 +55,17 @@ function ctools_block_ctools_plugin_block() {
   return array(
     'cache' => FALSE,
     'defaults' => array(
+      // Subject building function.
+      'subject' => NULL,
+      // Content building function.
+      'content' => NULL,
+      // Callback function used for building of the block configuration form.
+      'configure' => NULL,
+      // Save function used for saving the results of the configuration form.
+      'save' => NULL,
+      // Informational string used in administration display. Provided seperately for easier translation.
       'info' => '',
+      // Default options for block definition.
       'options' => array(),
     ),
   );
