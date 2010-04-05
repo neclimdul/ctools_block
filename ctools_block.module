@@ -53,7 +53,7 @@ function ctools_block_block($op = 'list', $delta = 0, $edit = array()) {
  */
 function ctools_block_ctools_plugin_block() {
   return array(
-    'cache' => FALSE,
+    'cache' => TRUE,
     'defaults' => array(
       // Subject building function.
       'subject' => NULL,
